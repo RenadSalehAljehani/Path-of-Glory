@@ -16,3 +16,5 @@ Extra Endpoints:
 7. searchUpcomingEventsForSponsor
 8. searchArenasByAthleteCity
 9. getEventsByDateRange
+
+[Path of Glory.pdf](https://github.com/user-attachments/files/18193487/Path.of.Glory.pdf)
