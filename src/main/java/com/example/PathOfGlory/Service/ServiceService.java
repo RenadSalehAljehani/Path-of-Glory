@@ -31,7 +31,23 @@ public class ServiceService { //Renad
     }
 
     // 2.2 POST
-    public void addService(Service service) {
+    public void addService(Service service, Integer arenaId) {
+        Arena arena = arenaRepository.findArenaById(arenaId);
+
+        // Validate that the arena exists
+        if (arena == null) {
+            throw new ApiException("Cannot add service. Arena not found.");
+        }
+
+        // Validate that the arena is activated
+        if (!"activated".equalsIgnoreCase(arena.getIsActivated())) {
+            throw new ApiException("Cannot add service. Arena is not activated.");
+        }
+
+        // Link the service to the arena
+        service.setArena(arena);
+
+        // Save the service
         serviceRepository.save(service);
     }
 
@@ -45,30 +61,6 @@ public class ServiceService { //Renad
         oldService.setDescription(service.getDescription());
         oldService.setPricePerDay(service.getPricePerDay());
         serviceRepository.save(oldService);
-    }
-
-    // Assign a service to an arena
-    public void assignServiceToArena(Integer serviceId, Integer arenaId) {
-        Service service = serviceRepository.findServiceById(serviceId);
-        Arena arena = arenaRepository.findArenaById(arenaId);
-
-        if (service == null && arena == null) {
-            throw new ApiException("Cant Assign. Service and Arena Not Found.");
-        }
-        if (service == null) {
-            throw new ApiException("Cant Assign. Service Not Found.");
-        }
-        if (arena == null) {
-            throw new ApiException("Cant Assign. Arena Not Found");
-        }
-
-        // Validate that the Arena is activated
-        if (!"activated".equalsIgnoreCase(arena.getIsActivated())) {
-            throw new ApiException("Cannot assign. Arena is not activated.");
-        }
-
-        service.setArena(arena);
-        serviceRepository.save(service);
     }
 
     // Extra endpoint:

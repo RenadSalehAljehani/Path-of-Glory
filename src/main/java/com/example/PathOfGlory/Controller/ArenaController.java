@@ -1,7 +1,9 @@
 package com.example.PathOfGlory.Controller;
 import com.example.PathOfGlory.ApiResponse.ApiResponse;
 import com.example.PathOfGlory.DTO.BookServiceDTO;
+import com.example.PathOfGlory.Model.Achievement;
 import com.example.PathOfGlory.Model.Arena;
+import com.example.PathOfGlory.Model.Service;
 import com.example.PathOfGlory.Service.ArenaService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;

@@ -18,7 +18,7 @@ public class EventHeldRequest {
 
     // status should be accepted - rejected - requested
     @Column(columnDefinition = "varchar(10)")
-    private String status;
+    private String status = "Pending";
 
     @ManyToOne
     @JsonIgnore

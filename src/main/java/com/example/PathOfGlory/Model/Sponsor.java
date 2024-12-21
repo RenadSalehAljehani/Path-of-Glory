@@ -60,9 +60,9 @@ public class Sponsor {
     @OneToMany(cascade = CascadeType.ALL,mappedBy = "sponsor")
     private Set<EventHeldRequest> eventHeldRequestList;
 
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL,mappedBy = "sponsor")
     private Set<EventParticipationRequest> eventParticipationRequestList;
 
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL,mappedBy = "sponsor")
     private Set<Event> eventList;
 }

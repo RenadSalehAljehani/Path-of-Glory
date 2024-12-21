@@ -1,6 +1,7 @@
 package com.example.PathOfGlory.Controller;
 
 import com.example.PathOfGlory.ApiResponse.ApiResponse;
+import com.example.PathOfGlory.DTO.ServiceDTO;
 import com.example.PathOfGlory.Model.Service;
 import com.example.PathOfGlory.Service.ServiceService;
 import jakarta.validation.Valid;
@@ -11,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/offering")
+@RequestMapping("/api/v1/service")
 @RequiredArgsConstructor
 public class ServiceController { //Renad
     // 1. Declare a dependency using Dependency Injection
@@ -25,9 +26,9 @@ public class ServiceController { //Renad
     }
 
     // 2.2 POST
-    @PostMapping("/add")
-    public ResponseEntity addService(@RequestBody @Valid Service service) {
-        serviceService.addService(service);
+    @PostMapping("/add/arenaId/{arenaId}")
+    public ResponseEntity addService(@RequestBody @Valid Service service, @PathVariable Integer arenaId) {
+        serviceService.addService(service,arenaId);
         return ResponseEntity.status(200).body(new ApiResponse("New Service Added."));
     }
 
@@ -38,17 +39,10 @@ public class ServiceController { //Renad
         return ResponseEntity.status(200).body(new ApiResponse("Service Updated."));
     }
 
-    // Assign a service to an arena
-    @PutMapping("/AssignServiceToArena/{serviceId}/{arenaId}")
-    public ResponseEntity assignServiceToArena(@PathVariable Integer serviceId, @PathVariable Integer arenaId) {
-        serviceService.assignServiceToArena(serviceId, arenaId);
-        return ResponseEntity.status(200).body(new ApiResponse("Assign Completed."));
-    }
-
     // Extra endpoint:
     @GetMapping("/getServicesByPriceRange/{minPrice}/{maxPrice}")
     public ResponseEntity getServicesByPriceRange(@PathVariable Double minPrice, @PathVariable Double maxPrice) {
-        List<Service> servicesByPriceRange = serviceService.getServicesByPriceRange(minPrice,maxPrice);
+        List<ServiceDTO> servicesByPriceRange = serviceService.getServicesByPriceRange(minPrice,maxPrice);
         return ResponseEntity.status(200).body(servicesByPriceRange);
     }
 }

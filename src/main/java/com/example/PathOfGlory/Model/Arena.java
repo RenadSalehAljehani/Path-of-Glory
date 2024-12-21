@@ -68,7 +68,7 @@ public class Arena {  //Renad
     @Column(columnDefinition = "varchar(10)")
     private String isActivated;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "arena")
+    @OneToMany(cascade = CascadeType.REMOVE, mappedBy = "arena")
     private Set<Service> services;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "arena")

@@ -13,4 +13,6 @@ public interface ServiceRepository extends JpaRepository<Service,Integer> { //Re
 
     @Query("select o from Service o where o.pricePerDay>=?1 and o.pricePerDay<=?2")
     List<Service> getServicesByPriceRange(Double minPrice, Double maxPrice);
+
+    List<Service> findServicesByArenaId(Integer arenaId);
 }

@@ -4,9 +4,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.Check;
 
 import java.util.Date;
@@ -16,6 +14,8 @@ import java.util.Set;
 @AllArgsConstructor
 @Entity
 @NoArgsConstructor
+@Getter
+@Setter
 public class Event {  //Renad
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -63,7 +63,7 @@ public class Event {  //Renad
 
     // status should be accepted - rejected - pending
     @Column(columnDefinition = "varchar(10)")
-    private String status;
+    private String status = "Pending";
 
     @ManyToOne
     @JsonIgnore
@@ -75,6 +75,5 @@ public class Event {  //Renad
 
     @OneToOne(cascade = CascadeType.ALL)
     @PrimaryKeyJoinColumn
-    @JsonIgnore
     private EventHeldRequest eventHeldRequest;
 }

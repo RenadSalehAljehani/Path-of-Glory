@@ -127,7 +127,6 @@ public class SponsorService {
             throw new ApiException("Arena not found");
         }
         EventHeldRequest eventHeldRequest = new EventHeldRequest();
-        eventHeldRequest.setSponsor(sponsor);
         eventHeldRequest.setArena(arena);
         eventHeldRequest.setEvent(event);
         eventHeldRequest.setStatus("pending");

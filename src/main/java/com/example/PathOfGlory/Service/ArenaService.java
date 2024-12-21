@@ -1,8 +1,7 @@
 package com.example.PathOfGlory.Service;
 
 import com.example.PathOfGlory.ApiResponse.ApiException;
-import com.example.PathOfGlory.DTO.ArenaDTO;
-import com.example.PathOfGlory.DTO.BookServiceDTO;
+import com.example.PathOfGlory.DTO.*;
 import com.example.PathOfGlory.Model.*;
 import com.example.PathOfGlory.Repository.*;
 import lombok.RequiredArgsConstructor;
@@ -20,6 +19,7 @@ public class ArenaService { //Renad
     private final EventHeldRequestRepository eventHeldRequestRepository;
     private final EventRepository eventRepository;
     private final AthleteRepository athleteRepository;
+    private final ServiceRepository serviceRepository;
 
     // 2. CRUD
     // 2.1 GET
@@ -27,9 +27,31 @@ public class ArenaService { //Renad
         List<Arena> arenas = arenaRepository.findAll();
         List<ArenaDTO> arenaDTOS = new ArrayList<>();
         for (Arena arena : arenas) {
-            ArenaDTO arenaDTO = new ArenaDTO(arena.getUsername(), arena.getName(), arena.getCity(), arena.getLocation());
+            // Map Services to ServiceDTO
+            List<ServiceDTO> serviceDTOS = new ArrayList<>();
+            for (Service service : arena.getServices()) {
+                serviceDTOS.add(new ServiceDTO(service.getName(), service.getDescription(), service.getPricePerDay()));
+            }
+
+            // Map Events to EventDTO
+            List<EventDTO> eventDTOS = new ArrayList<>();
+            for (Event event : arena.getEvents()) {
+                eventDTOS.add(new EventDTO(event.getName(), event.getDescription(), event.getCity(), event.getLocation(), event.getStartDate(), event.getEndDate()));
+            }
+
+            // Create ArenaDTO
+            ArenaDTO arenaDTO = new ArenaDTO(
+                    arena.getUsername(),
+                    arena.getName(),
+                    arena.getCity(),
+                    arena.getLocation(),
+                    serviceDTOS,
+                    eventDTOS
+            );
+
             arenaDTOS.add(arenaDTO);
         }
+
         return arenaDTOS;
     }
 
@@ -46,6 +68,8 @@ public class ArenaService { //Renad
             throw new ApiException("Arena Not Found.");
         }
         oldArena.setName(arena.getName());
+        oldArena.setUsername(arena.getUsername());
+        oldArena.setPassword(arena.getPassword());
         oldArena.setCity(arena.getCity());
         oldArena.setLocation(arena.getLocation());
         oldArena.setLicense(arena.getLicense());
@@ -96,7 +120,7 @@ public class ArenaService { //Renad
         }
 
         // Validate that the booking is related to a service offered by the exact arena
-         Service service = bookService.getService();
+        Service service = bookService.getService();
         if (service == null || !service.getArena().getId().equals(arenaId)) {
             throw new ApiException("Booking Does Not Belong to an Service in This Arena.");
         }
@@ -188,7 +212,28 @@ public class ArenaService { //Renad
 
         List<ArenaDTO> arenaDTOS = new ArrayList<>();
         for (Arena arena : arenas) {
-            ArenaDTO arenaDTO = new ArenaDTO(arena.getUsername(), arena.getName(), arena.getCity(), arena.getLocation());
+            // Map Services to ServiceDTO
+            List<ServiceDTO> serviceDTOS = new ArrayList<>();
+            for (Service service : arena.getServices()) {
+                serviceDTOS.add(new ServiceDTO(service.getName(), service.getDescription(), service.getPricePerDay()));
+            }
+
+            // Map Events to EventDTO
+            List<EventDTO> eventDTOS = new ArrayList<>();
+            for (Event event : arena.getEvents()) {
+                eventDTOS.add(new EventDTO(event.getName(), event.getDescription(), event.getCity(), event.getLocation(), event.getStartDate(), event.getEndDate()));
+            }
+
+            // Create ArenaDTO
+            ArenaDTO arenaDTO = new ArenaDTO(
+                    arena.getUsername(),
+                    arena.getName(),
+                    arena.getCity(),
+                    arena.getLocation(),
+                    serviceDTOS,
+                    eventDTOS
+            );
+
             arenaDTOS.add(arenaDTO);
         }
         return arenaDTOS;

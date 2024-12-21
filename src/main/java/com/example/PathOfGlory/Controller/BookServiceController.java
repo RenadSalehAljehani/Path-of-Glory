@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Date;
 
 @RestController
-@RequestMapping("/api/v1/bookOffering")
+@RequestMapping("/api/v1/bookService")
 @RequiredArgsConstructor
 public class BookServiceController { //Renad
 
