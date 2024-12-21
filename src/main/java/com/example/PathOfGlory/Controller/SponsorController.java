@@ -45,10 +45,17 @@ public class SponsorController {
         return ResponseEntity.status(200).body(new ApiResponse("Sponsor deleted successfully"));
     }
 
-    @PostMapping("/add-sponsorship/{sponsor_id}/{athlete_id}")
-    public ResponseEntity sponsorAthlete(@PathVariable Integer sponsor_id,@PathVariable Integer athlete_id,@RequestBody @Valid SponsorShip sponsorShip) {
-        sponsorService.sponsorAthlete(sponsor_id,athlete_id,sponsorShip);
-        return ResponseEntity.status(200).body(new ApiResponse("Sponsor add sponsorship successfully"));
+    @PutMapping("/accept/{athlete_id}/sponsorship/{sponsorship_id}")
+    public ResponseEntity acceptSponsorship(@PathVariable Integer athlete_id, @PathVariable Integer sponsorship_id){
+        sponsorService.acceptSponsorship(athlete_id, sponsorship_id);
+        return ResponseEntity.status(200).body(new ApiResponse("SponsorShip Accepted Successfully"));
+    }
+
+    @PutMapping("/reject/{athlete_id}/sponsorship/{sponsorship_id}")
+    public ResponseEntity rejectSponsorShip(@PathVariable Integer athlete_id, @PathVariable Integer sponsorship_id){
+        sponsorService.rejectSponsorShip(athlete_id, sponsorship_id);
+        return ResponseEntity.status(200).body(new ApiResponse("SponsorShip Rejected"));
+
     }
 
     @PostMapping("/add-request-event/sponsorId/{sponsorId}/arenaId/{arenaId}")

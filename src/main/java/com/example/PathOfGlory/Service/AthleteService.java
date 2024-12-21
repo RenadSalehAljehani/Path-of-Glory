@@ -3,6 +3,8 @@ package com.example.PathOfGlory.Service;
 import com.example.PathOfGlory.ApiResponse.ApiException;
 import com.example.PathOfGlory.DTO.AchievementOutDTO;
 import com.example.PathOfGlory.DTO.AthleteOutDTO;
+import com.example.PathOfGlory.DTO.SponsorDTO;
+import com.example.PathOfGlory.Repository.SponsorRepository;
 import com.example.PathOfGlory.DTO.TeammateRequestOutDTO;
 import com.example.PathOfGlory.Model.*;
 import com.example.PathOfGlory.Repository.*;
@@ -167,23 +169,22 @@ public class AthleteService { // Naelah
 
         Sponsor sponsor = sponsorRepository.findSponsorById(sponsor_id);
         Athlete athlete = athleteRepository.findAthleteById(athlete_id);
-        SponsorShip sponsorShip = sponsorShipRepository.findSponsorShipById(sponsorship_id);
-        if (athlete == null) {
-            throw new ApiException("athlete not found");
+
+        if(sponsor == null || athlete == null) {
+            throw new ApiException("Sponsor or athlete not found");
         }
-        if (sponsorShip == null) {
-            throw new ApiException("sponsorship not found");
+
+        if (!sponsor.getIsActivated().equalsIgnoreCase("activated")){
+            throw new ApiException("The sponsor not activated");
         }
-        // check if its bending --> if the request is made
-        if (!(sponsorShip != null && sponsorShip.getStatus().equalsIgnoreCase("pending"))) {
-            throw new ApiException("sponsorship status not requested");
+
+        if(sponsorShip.getStatus()==null){
+            sponsorShip.setStatus("Pending");
+            sponsorShip.setAthlete(athlete);
+            sponsorShip.setAthleteSponsor(sponsor);
+            sponsorShipRepository.save(sponsorShip);
         }
-        // check if it has the same athlete
-        if (!sponsorShip.getAthlete().getId().equals(athlete.getId())) {
-            throw new ApiException("Cannot reject this request. not the same athlete");
-        }
-        sponsorShip.setStatus("rejected");
-        sponsorShipRepository.save(sponsorShip);
+
     }
 
     // get all athlete sponsor ship
