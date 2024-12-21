@@ -23,11 +23,11 @@ import java.util.List;
 public class AthleteController { // Naelah
     private final AthleteService athleteService;
     private final BookCoachService bookCoachService;
-    private final BookOfferingService bookOfferingService;
+    private final BookServiceService bookServiceService;
     private final EventService eventService;
-    private final ArenaRepository arenaRepository;
     private final ArenaService arenaService;
 
+    // CRUD
     @GetMapping("/get")
     public ResponseEntity getAllAthletes() {
         return ResponseEntity.status(200).body(athleteService.getAllAthletes());
@@ -51,6 +51,7 @@ public class AthleteController { // Naelah
         return ResponseEntity.status(200).body(new ApiResponse("Athlete Deleted Successfully"));
     }
 
+    // Extra endpoints:
     @PostMapping("/request/coach/booking/{athlete_id}/{coach_username}")
     public ResponseEntity requestCoachBooking(@PathVariable Integer athlete_id, @PathVariable String coach_username, @RequestBody @Valid BookCoach booking) {
         bookCoachService.requestCoachBooking(athlete_id, coach_username, booking);
@@ -79,9 +80,9 @@ public class AthleteController { // Naelah
         return ResponseEntity.status(200).body(athleteService.findSameSportAndCityAthletes(sport_name, city));
     }
 
-    @PostMapping("/send/teammate/request/from/{sender_athlete_id}/to/{receiver_athlete_username}")
-    public ResponseEntity sendTeammateRequest(@PathVariable Integer sender_athlete_id, @PathVariable String receiver_athlete_username) {
-        athleteService.sendTeammateRequest(sender_athlete_id, receiver_athlete_username);
+    @PostMapping("/send/teammate/request/from/{sender_athlete_id}/to/{receiver_athlete_id}")
+    public ResponseEntity sendTeammateRequest(@PathVariable Integer sender_athlete_id, @PathVariable Integer receiver_athlete_id) {
+        athleteService.sendTeammateRequest(sender_athlete_id, receiver_athlete_id);
         return ResponseEntity.status(200).body(new ApiResponse("Teammate Request sent successfully"));
     }
 
@@ -109,16 +110,17 @@ public class AthleteController { // Naelah
         return ResponseEntity.status(200).body(new ApiResponse("Response to teammate request sent successfully"));
     }
 
-    @PostMapping("/bookOffering/offeringId/{offeringId}/athleteId/{athleteId}/startDate/{startDate}/endDate/{endDate}")  //Renad
-    public ResponseEntity book(@PathVariable Integer offeringId, @PathVariable Integer athleteId, @PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd")  Date startDate, @PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd")  Date endDate) {
-        bookOfferingService.bookOffering(offeringId, athleteId, startDate, endDate);
-        return ResponseEntity.status(200).body(new ApiResponse("Booking Completed."));
-    }
-
     @PostMapping("/send-participate-request/athlete_id/{athlete_id}/eventNumber/{eventNumber}")
     public ResponseEntity requestParticipate(@PathVariable Integer athlete_id,@PathVariable Integer eventNumber) {
         athleteService.requestParticipateInEvent(athlete_id, eventNumber);
         return ResponseEntity.status(200).body(new ApiResponse("sent participation request successfully"));
+    }
+
+    //Renad
+    @PostMapping("/bookService/serviceId/{serviceId}/athleteId/{athleteId}/startDate/{startDate}/endDate/{endDate}")
+    public ResponseEntity bookService(@PathVariable Integer serviceId, @PathVariable Integer athleteId, @PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd")  Date startDate, @PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd")  Date endDate) {
+        bookServiceService.bookService(serviceId, athleteId, startDate, endDate);
+        return ResponseEntity.status(200).body(new ApiResponse("Booking Completed."));
     }
 
     //Renad
@@ -135,10 +137,17 @@ public class AthleteController { // Naelah
         return ResponseEntity.status(200).body(upcomingEvents);
     }
 
+    // Renad
+    @GetMapping("/getEventsByDateRange/athleteId/{athleteId}/startDate/{startDate}/endDate/{endDate}")
+    public ResponseEntity getEventsByDateRange(@PathVariable Integer athleteId, @PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") Date startDate, @PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd")  Date endDate) {
+        List<EventDTO> eventsByDateRange = eventService.getEventsByDateRange(athleteId,startDate, endDate);
+        return ResponseEntity.status(200).body(eventsByDateRange);
+    }
+
     //Renad
     @GetMapping("/searchArenasByAthleteCity/athleteId/{athleteId}")
     public ResponseEntity searchArenasByAthleteCity(@PathVariable Integer athleteId) {
-        List<ArenaDTO> arenaDTOS = arenaService.searchArenaByCity(athleteId);
+        List<ArenaDTO> arenaDTOS = arenaService.searchArenasByAthleteCity(athleteId);
         return ResponseEntity.status(200).body(arenaDTOS);
     }
 }

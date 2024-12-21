@@ -45,7 +45,6 @@ public class Sponsor {
     @Column(columnDefinition = "varchar(10)")
     private String isActivated;
 
-
     @OneToMany(cascade = CascadeType.ALL,mappedBy = "athleteSponsor")
     private Set<SponsorShip> sponsorShipList;
 

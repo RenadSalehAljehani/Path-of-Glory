@@ -14,7 +14,7 @@ import java.util.Set;
 @AllArgsConstructor
 @Entity
 @NoArgsConstructor
-public class Offering {  //Renad
+public class Service {  //Renad
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
@@ -31,15 +31,15 @@ public class Offering {  //Renad
     @Check(constraints = "length(description)>=20")
     private String description;
 
-    @NotNull(message = "Price can't be empty.")
-    @Positive(message = "Price must be a positive number larger than zero.")
+    @NotNull(message = "Price per day can't be empty.")
+    @Positive(message = "Price per day must be a positive number larger than zero.")
     @Column(columnDefinition = "double not null")
-    @Check(constraints = "price>0")
-    private Double price;
+    @Check(constraints = "pricePerDay>0")
+    private Double pricePerDay;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "offering")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "service")
     @JsonIgnore
-    private Set<BookOffering> bookOfferings;
+    private Set<BookService> bookServices;
 
     @ManyToOne
     @JsonIgnore

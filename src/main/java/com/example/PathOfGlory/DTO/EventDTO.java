@@ -10,6 +10,8 @@ import java.util.Date;
 public class EventDTO {  //Renad
     private String name;
 
+    private String description;
+
     private String city;
 
     private String location;

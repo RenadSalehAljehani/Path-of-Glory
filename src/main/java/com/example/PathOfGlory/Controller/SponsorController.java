@@ -74,4 +74,11 @@ public class SponsorController {
         sponsorService.finishSponsorShip(sponsor_id,sponsorShip_id);
         return ResponseEntity.status(200).body(new ApiResponse("Sponsorship is finished"));
     }
+
+    // Renad
+    @PostMapping("/requestSponsorship/sponsorId/{sponsorId}/athleteId/{athleteId}/eventId/{eventId}")
+    public ResponseEntity requestSponsorship(@PathVariable Integer sponsorId,@PathVariable Integer athleteId, @PathVariable Integer eventId){
+        sponsorService.requestSponsorship(sponsorId,athleteId,eventId);
+        return ResponseEntity.status(200).body(new ApiResponse("Sponsorship request has been created successfully."));
+    }
 }

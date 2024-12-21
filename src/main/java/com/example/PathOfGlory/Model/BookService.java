@@ -15,7 +15,7 @@ import java.util.Date;
 @AllArgsConstructor
 @Entity
 @NoArgsConstructor
-public class BookOffering {  //Renad
+public class BookService {  //Renad
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
@@ -29,6 +29,9 @@ public class BookOffering {  //Renad
     @JsonFormat(pattern = "yyyy-MM-dd")
     @Column(columnDefinition = "date")
     private Date endDate;
+
+    @Column(columnDefinition = "double")
+    private Double bookingPrice;
 
     // status should be accepted - rejected - requested
     @Column(columnDefinition = "varchar(10)")
@@ -44,5 +47,5 @@ public class BookOffering {  //Renad
 
     @ManyToOne
     @JsonIgnore
-    private Offering offering;
+    private Service service;
 }

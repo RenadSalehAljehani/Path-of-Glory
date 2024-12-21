@@ -1,6 +1,6 @@
 package com.example.PathOfGlory.Controller;
 import com.example.PathOfGlory.ApiResponse.ApiResponse;
-import com.example.PathOfGlory.DTO.BookOfferingDTO;
+import com.example.PathOfGlory.DTO.BookServiceDTO;
 import com.example.PathOfGlory.Model.Arena;
 import com.example.PathOfGlory.Service.ArenaService;
 import jakarta.validation.Valid;
@@ -46,16 +46,16 @@ public class ArenaController { //Renad
     }
 
     // Extra endpoints:
-    @PutMapping("/handleBookOfferingRequest/arenaId/{arenaId}/bookingId/{bookingId}/isAccepted/{isAccepted}")
-    public ResponseEntity handleBookOfferingRequest(@PathVariable Integer arenaId, @PathVariable Integer bookingId, @PathVariable Boolean isAccepted){
-        arenaService.handleBookOfferingRequest(arenaId,bookingId,isAccepted);
+    @PutMapping("/handleBookServiceRequest/arenaId/{arenaId}/bookingId/{bookingId}/isAccepted/{isAccepted}")
+    public ResponseEntity handleBookServiceRequest(@PathVariable Integer arenaId, @PathVariable Integer bookingId, @PathVariable Boolean isAccepted){
+        arenaService.handleBookServiceRequest(arenaId,bookingId,isAccepted);
         return ResponseEntity.status(200).body(new ApiResponse("Request Handled."));
     }
 
     @GetMapping("/getAllAcceptedOfferingBookings/{arenaId}")
-    public ResponseEntity getAllAcceptedOfferingBookings(@PathVariable Integer arenaId){
-        List<BookOfferingDTO> acceptedBookOfferingDTOS = arenaService.getAllAcceptedOfferingBookings(arenaId);
-        return ResponseEntity.status(200).body(acceptedBookOfferingDTOS);
+    public ResponseEntity getAllAcceptedServiceBookings(@PathVariable Integer arenaId){
+        List<BookServiceDTO> acceptedServiceBookings = arenaService.getAllAcceptedServiceBookings(arenaId);
+        return ResponseEntity.status(200).body(acceptedServiceBookings);
     }
 
     @PutMapping("/handleEventHeldRequest/arenaId/{arenaId}/eventHeldRequestId/{eventHeldRequestId}/isAccepted/{isAccepted}")

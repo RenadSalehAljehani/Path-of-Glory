@@ -5,10 +5,10 @@ import lombok.Data;
 
 @Data
 @AllArgsConstructor
-public class OfferingDTO {  //Renad
+public class ServiceDTO {  //Renad
     private String name;
 
     private String description;
 
-    private Double price;
+    private Double pricePerDay;
 }

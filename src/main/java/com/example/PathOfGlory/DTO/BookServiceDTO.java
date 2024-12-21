@@ -8,10 +8,12 @@ import java.util.Date;
 
 @Data
 @AllArgsConstructor
-public class BookOfferingDTO {  //Renad
+public class BookServiceDTO {  //Renad
     private Date startDate;
 
     private Date endDate;
+
+    private Double bookingPrice;
 
     private String status;
 
